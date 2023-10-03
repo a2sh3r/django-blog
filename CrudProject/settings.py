@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -27,8 +26,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'taggit',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'django.contrib.postgres',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -56,8 +59,8 @@ ROOT_URLCONF = 'CrudProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CrudProject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -81,12 +83,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -106,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -118,13 +118,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = ((os.path.join(BASE_DIR, 'blog', 'static')), )
+STATICFILES_DIRS = ((os.path.join(BASE_DIR, 'blog', 'static')),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -132,11 +131,18 @@ STATICFILES_DIRS = ((os.path.join(BASE_DIR, 'blog', 'static')), )
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'michaelzainutdinov@yandex.ru'
-EMAIL_HOST_PASSWORD = 'kbxdarkpunpfnzti'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ashurmetovmm@gmail.com'
+EMAIL_HOST_PASSWORD = 'ckkm ofoj qtpj iqcy'
 
-# send_mail('Django mail', 'testing:).', 'ashurmetovmm@gmail.com', ['9versus1@gmail.com'], fail_silently=False)
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+LOGIN_REDIRECT_URL = "/blog"
+
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 4
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
